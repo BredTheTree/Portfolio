@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Converter - Brady Librino</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .converter-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .converter-title {
+            text-align: center;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+        }
+
+        .converter-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .base-input-container {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .base-select {
+            flex: 0 0 120px;
+        }
+
+        .number-input {
+            flex: 1;
+        }
+
+        .converter-input, .converter-select {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            transition: border-color 0.3s ease;
+        }
+
+        .converter-input:focus, .converter-select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .convert-btn {
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 1rem 0;
+        }
+
+        .convert-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .results-section {
+            margin-top: 2rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .result-value {
+            font-family: 'Courier New', monospace;
+            background: var(--bg-card);
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            border: 1px solid var(--border-color);
+            color: var(--accent-primary);
+            font-weight: bold;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-hover);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .converter-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .base-input-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .base-select {
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-logo">Portfolio</div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
+
+    <main style="margin-top: 6rem;">
+        <div class="converter-container">
+            <a href="index.html#projects" class="back-link">← Back to Projects</a>
+            
+            <h1 class="converter-title">Base Converter</h1>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                Convert numbers between different number bases (binary, decimal, hexadecimal, and more)
+            </p>
+
+            <div class="converter-form">
+                <div class="input-group">
+                    <label for="input-number">Enter Number:</label>
+                    <div class="base-input-container">
+                        <input type="text" id="input-number" class="converter-input number-input" placeholder="Enter a number">
+                        <select id="from-base" class="converter-select base-select">
+                            <option value="2">Binary (2)</option>
+                            <option value="8">Octal (8)</option>
+                            <option value="10" selected>Decimal (10)</option>
+                            <option value="16">Hex (16)</option>
+                        </select>
+                    </div>
+                    <div id="error-message" class="error-message" style="display: none;"></div>
+                </div>
+
+                <button type="button" id="convert-btn" class="convert-btn">Convert</button>
+
+                <div id="results" class="results-section" style="display: none;">
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Results:</h3>
+                    <div class="result-item">
+                        <span class="result-label">Binary (Base 2):</span>
+                        <span id="result-binary" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Octal (Base 8):</span>
+                        <span id="result-octal" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Decimal (Base 10):</span>
+                        <span id="result-decimal" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Hexadecimal (Base 16):</span>
+                        <span id="result-hex" class="result-value">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Base converter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputNumber = document.getElementById('input-number');
+            const fromBase = document.getElementById('from-base');
+            const convertBtn = document.getElementById('convert-btn');
+            const resultsSection = document.getElementById('results');
+            const errorMessage = document.getElementById('error-message');
+
+            // Result elements
+            const resultBinary = document.getElementById('result-binary');
+            const resultOctal = document.getElementById('result-octal');
+            const resultDecimal = document.getElementById('result-decimal');
+            const resultHex = document.getElementById('result-hex');
+
+            function isValidNumber(number, base) {
+                const validChars = '0123456789ABCDEF'.slice(0, parseInt(base));
+                return number.toUpperCase().split('').every(char => validChars.includes(char));
+            }
+
+            function convertNumber() {
+                const inputValue = inputNumber.value.trim().toUpperCase();
+                const selectedBase = parseInt(fromBase.value);
+
+                // Hide previous error
+                errorMessage.style.display = 'none';
+
+                if (!inputValue) {
+                    showError('Please enter a number');
+                    return;
+                }
+
+                if (!isValidNumber(inputValue, selectedBase)) {
+                    showError(`Invalid number for base ${selectedBase}`);
+                    return;
+                }
+
+                try {
+                    // Convert to decimal first
+                    const decimalValue = parseInt(inputValue, selectedBase);
+                    
+                    if (isNaN(decimalValue)) {
+                        showError('Invalid number format');
+                        return;
+                    }
+
+                    // Convert to all bases
+                    resultBinary.textContent = decimalValue.toString(2);
+                    resultOctal.textContent = decimalValue.toString(8);
+                    resultDecimal.textContent = decimalValue.toString(10);
+                    resultHex.textContent = decimalValue.toString(16).toUpperCase();
+
+                    resultsSection.style.display = 'block';
+                } catch (error) {
+                    showError('Error converting number');
+                }
+            }
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                resultsSection.style.display = 'none';
+            }
+
+            // Event listeners
+            convertBtn.addEventListener('click', convertNumber);
+            
+            inputNumber.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    convertNumber();
+                }
+            });
+
+            // Convert on input change
+            inputNumber.addEventListener('input', function() {
+                if (inputNumber.value.trim()) {
+                    convertNumber();
+                }
+            });
+
+            fromBase.addEventListener('change', function() {
+                if (inputNumber.value.trim()) {
+                    convertNumber();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

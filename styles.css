@@ -236,6 +236,9 @@ section {
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: all 0.3s ease;
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .project-card:hover {
