@@ -48,4 +48,58 @@ document.addEventListener('DOMContentLoaded', function() {
     menuButton.addEventListener('click', () => {
         navLinks.classList.toggle('show');
     });
+
+    // Contact form functionality
+    const contactForm = document.getElementById('contact-form');
+    const formStatus = document.getElementById('form-status');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const message = document.getElementById('contact-message').value;
+            
+            // Create mailto URL
+            const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+            const body = encodeURIComponent(
+                `Name: ${name}\n` +
+                `Email: ${email}\n\n` +
+                `Message:\n${message}\n\n` +
+                `---\nSent from Brady Librino's Portfolio Website`
+            );
+            
+            const mailtoUrl = `mailto:savinravin123@gmail.com?subject=${subject}&body=${body}`;
+            
+            // Open email client
+            window.location.href = mailtoUrl;
+            
+            // Show success message
+            showFormStatus('Thank you for your message! Your email client should have opened with a pre-filled email.', 'success');
+            
+            // Reset form after a delay
+            setTimeout(() => {
+                contactForm.reset();
+                hideFormStatus();
+            }, 3000);
+        });
+    }
+
+    function showFormStatus(message, type) {
+        formStatus.textContent = message;
+        formStatus.style.display = 'block';
+        
+        if (type === 'success') {
+            formStatus.style.backgroundColor = '#10b981';
+            formStatus.style.color = 'white';
+        } else if (type === 'error') {
+            formStatus.style.backgroundColor = '#ef4444';
+            formStatus.style.color = 'white';
+        }
+    }
+
+    function hideFormStatus() {
+        formStatus.style.display = 'none';
+    }
 });
