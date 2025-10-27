@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino DC Motor Project - Brady Librino</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .project-detail-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .project-title {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .project-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-tags-header {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .project-tags-header span {
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-hover);
+        }
+
+        .project-section {
+            background: var(--bg-card);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent-primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .overview-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            background: var(--bg-secondary);
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--accent-primary);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border-color);
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--text-tertiary);
+        }
+
+        .video-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .code-section {
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .code-filename {
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .copy-button {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background: var(--accent-hover);
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 0.375rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            border: 1px solid var(--border-color);
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-keyword {
+            color: #569cd6;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .spec-item {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .spec-value {
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .project-detail-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .project-section {
+                padding: 1.5rem;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-logo">Portfolio</div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
+
+    <main style="margin-top: 6rem;">
+        <div class="project-detail-container">
+            <a href="index.html#projects" class="back-link">← Back to Projects</a>
+            
+            <div class="project-header">
+                <h1 class="project-title">Arduino DC Motor Controller</h1>
+                <p class="project-subtitle">IR Remote Controlled DC Motor with Arduino</p>
+                <div class="project-tags-header">
+                    <span>C++</span>
+                    <span>Arduino</span>
+                    <span>Electronics</span>
+                    <span>IR Remote</span>
+                </div>
+            </div>
+
+            <!-- Project Overview Section -->
+            <div class="project-section">
+                <h2 class="section-title">📋 Project Overview</h2>
+                <div class="overview-content">
+                    <p><strong>[PLACEHOLDER - Add your project description here]</strong></p>
+                    <p>This Arduino project demonstrates the integration of infrared communication with motor control systems. The project showcases fundamental concepts in embedded systems programming and hardware interfacing.</p>
+                    
+                    <h3 style="color: var(--accent-primary); margin-top: 2rem; margin-bottom: 1rem;">Key Features:</h3>
+                    <ul class="feature-list">
+                        <li><strong>[PLACEHOLDER]</strong> - Add your first key feature</li>
+                        <li><strong>[PLACEHOLDER]</strong> - Add your second key feature</li>
+                        <li><strong>[PLACEHOLDER]</strong> - Add your third key feature</li>
+                        <li><strong>[PLACEHOLDER]</strong> - Add your fourth key feature</li>
+                    </ul>
+
+                    <h3 style="color: var(--accent-primary); margin-top: 2rem; margin-bottom: 1rem;">Technical Specifications:</h3>
+                    <div class="specs-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Microcontroller:</div>
+                            <div class="spec-value">[PLACEHOLDER - e.g., Arduino Uno R3]</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Motor Type:</div>
+                            <div class="spec-value">[PLACEHOLDER - e.g., DC Gear Motor]</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Power Supply:</div>
+                            <div class="spec-value">[PLACEHOLDER - e.g., 9V Battery]</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">IR Receiver:</div>
+                            <div class="spec-value">[PLACEHOLDER - e.g., TSOP38238]</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Demo Section -->
+            <div class="project-section">
+                <h2 class="section-title">🎥 Video Demonstration</h2>
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <i>📹</i>
+                        <h3>[VIDEO PLACEHOLDER]</h3>
+                        <p>Upload your project demonstration video here</p>
+                        <p style="font-size: 0.9rem; margin-top: 1rem;">Recommended: MP4 format, 1080p resolution</p>
+                    </div>
+                    <!-- 
+                    Replace the placeholder above with your actual video:
+                    <video controls style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+                        <source src="your-video-file.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    -->
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-secondary); text-align: center;">
+                    <strong>[PLACEHOLDER]</strong> - Add a description of what the video demonstrates
+                </p>
+            </div>
+
+            <!-- Code Section -->
+            <div class="project-section">
+                <h2 class="section-title">💻 Source Code</h2>
+                
+                <div class="code-section">
+                    <div class="code-header">
+                        <span class="code-filename">arduino_motor_controller.ino</span>
+                        <button class="copy-button" onclick="copyCode()">Copy Code</button>
+                    </div>
+                    <div class="code-block" id="code-content">
+<span class="code-comment">/*
+ * [PLACEHOLDER - Add your project title and description]
+ * Arduino DC Motor Controller with IR Remote
+ * 
+ * Author: Brady Librino
+ * Date: [PLACEHOLDER - Add creation date]
+ * Description: [PLACEHOLDER - Add detailed description]
+ */</span>
+
+<span class="code-comment">// [PLACEHOLDER - Add your library includes]</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;IRremote.h&gt;</span>
+
+<span class="code-comment">// [PLACEHOLDER - Define your pin connections]</span>
+<span class="code-keyword">const int</span> IR_RECEIVE_PIN = <span class="code-string">11</span>;
+<span class="code-keyword">const int</span> MOTOR_PIN1 = <span class="code-string">9</span>;
+<span class="code-keyword">const int</span> MOTOR_PIN2 = <span class="code-string">10</span>;
+
+<span class="code-comment">// [PLACEHOLDER - Add your global variables]</span>
+<span class="code-keyword">IRrecv</span> irrecv(IR_RECEIVE_PIN);
+<span class="code-keyword">decode_results</span> results;
+
+<span class="code-keyword">void</span> <span class="code-string">setup</span>() {
+  <span class="code-comment">// [PLACEHOLDER - Add your setup code here]</span>
+  Serial.<span class="code-string">begin</span>(<span class="code-string">9600</span>);
+  irrecv.<span class="code-string">enableIRIn</span>();
+  
+  <span class="code-comment">// Initialize motor pins</span>
+  pinMode(MOTOR_PIN1, OUTPUT);
+  pinMode(MOTOR_PIN2, OUTPUT);
+  
+  Serial.<span class="code-string">println</span>(<span class="code-string">"Arduino Motor Controller Ready!"</span>);
+}
+
+<span class="code-keyword">void</span> <span class="code-string">loop</span>() {
+  <span class="code-comment">// [PLACEHOLDER - Add your main loop code here]</span>
+  <span class="code-keyword">if</span> (irrecv.<span class="code-string">decode</span>(&results)) {
+    <span class="code-comment">// Process received IR signal</span>
+    processIRCommand(results.value);
+    irrecv.<span class="code-string">resume</span>();
+  }
+}
+
+<span class="code-comment">// [PLACEHOLDER - Add your custom functions here]</span>
+<span class="code-keyword">void</span> <span class="code-string">processIRCommand</span>(<span class="code-keyword">unsigned long</span> command) {
+  <span class="code-comment">// Add your IR command processing logic</span>
+  <span class="code-keyword">switch</span>(command) {
+    <span class="code-keyword">case</span> <span class="code-string">0xFF18E7</span>: <span class="code-comment">// Forward button</span>
+      motorForward();
+      <span class="code-keyword">break</span>;
+    <span class="code-keyword">case</span> <span class="code-string">0xFF4AB5</span>: <span class="code-comment">// Backward button</span>
+      motorBackward();
+      <span class="code-keyword">break</span>;
+    <span class="code-keyword">case</span> <span class="code-string">0xFF38C7</span>: <span class="code-comment">// Stop button</span>
+      motorStop();
+      <span class="code-keyword">break</span>;
+    <span class="code-keyword">default</span>:
+      Serial.<span class="code-string">println</span>(<span class="code-string">"Unknown command"</span>);
+  }
+}
+
+<span class="code-keyword">void</span> <span class="code-string">motorForward</span>() {
+  <span class="code-comment">// [PLACEHOLDER - Add forward motion code]</span>
+}
+
+<span class="code-keyword">void</span> <span class="code-string">motorBackward</span>() {
+  <span class="code-comment">// [PLACEHOLDER - Add backward motion code]</span>
+}
+
+<span class="code-keyword">void</span> <span class="code-string">motorStop</span>() {
+  <span class="code-comment">// [PLACEHOLDER - Add stop motion code]</span>
+}
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Code Explanation:</h3>
+                    <div class="overview-content">
+                        <p><strong>[PLACEHOLDER - Add explanation of your code structure]</strong></p>
+                        <ul style="margin-top: 1rem; color: var(--text-secondary);">
+                            <li><strong>[PLACEHOLDER]</strong> - Explain the setup function</li>
+                            <li><strong>[PLACEHOLDER]</strong> - Explain the main loop</li>
+                            <li><strong>[PLACEHOLDER]</strong> - Explain IR signal processing</li>
+                            <li><strong>[PLACEHOLDER]</strong> - Explain motor control functions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Sections -->
+            <div class="project-section">
+                <h2 class="section-title">🔧 Implementation Details</h2>
+                <div class="overview-content">
+                    <p><strong>[PLACEHOLDER - Add implementation details]</strong></p>
+                    <p>Describe the challenges you faced, solutions you implemented, and lessons learned during the development process.</p>
+                    
+                    <h3 style="color: var(--accent-primary); margin-top: 2rem; margin-bottom: 1rem;">Future Improvements:</h3>
+                    <ul>
+                        <li><strong>[PLACEHOLDER]</strong> - Add potential improvement 1</li>
+                        <li><strong>[PLACEHOLDER]</strong> - Add potential improvement 2</li>
+                        <li><strong>[PLACEHOLDER]</strong> - Add potential improvement 3</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        function copyCode() {
+            const codeContent = document.getElementById('code-content').innerText;
+            navigator.clipboard.writeText(codeContent).then(function() {
+                const copyButton = document.querySelector('.copy-button');
+                const originalText = copyButton.textContent;
+                copyButton.textContent = 'Copied!';
+                copyButton.style.backgroundColor = '#10b981';
+                
+                setTimeout(() => {
+                    copyButton.textContent = originalText;
+                    copyButton.style.backgroundColor = '';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
