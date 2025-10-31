@@ -131,6 +131,36 @@
             display: block;
         }
 
+        .project-photo-container {
+            position: relative;
+            width: 100%;
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 2px dashed var(--border-color);
+        }
+
+        .photo-placeholder {
+            text-align: center;
+            color: var(--text-tertiary);
+            padding: 3rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .photo-placeholder h3 {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
         .code-section {
             background: var(--bg-secondary);
             border-radius: 0.5rem;
@@ -272,8 +302,8 @@
             <div class="project-section">
                 <h2 class="section-title">📋 Project Overview</h2>
                 <div class="overview-content">
-                    <p><strong>[PLACEHOLDER - Add your project description here]</strong></p>
-                    <p>This Arduino project demonstrates the integration of infrared communication with motor control systems. The project showcases fundamental concepts in embedded systems programming and hardware interfacing.</p>
+                    <p><strong>Summary</strong></p>
+                    <p>This Arduino project is a DC motor wired to an IR sensor, allowing its speed and direction to be controlled using a remote control</p>
                     
                     <h3 style="color: var(--accent-primary); margin-top: 2rem; margin-bottom: 1rem;">Key Features:</h3>
                     <ul class="feature-list">
@@ -309,6 +339,23 @@
                 </div>
             </div>
 
+            <!-- Project Image Section -->
+            <div class="project-section">
+                <h2 class="section-title">📸 Project Photo</h2>
+                <div class="project-photo-container">
+                    <img id="project-photo" src="[PLACEHOLDER - Add your image file path here, e.g., arduino-setup.jpg]" alt="Project Photo" style="width: 100%; height: auto; border-radius: 0.5rem; display: none;">
+                    <div id="photo-placeholder" class="photo-placeholder">
+                        <i>📷</i>
+                        <h3>[PHOTO PLACEHOLDER]</h3>
+                        <p>Replace the src attribute in the img tag with your project photo file</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--text-tertiary);">Example: &lt;img src="arduino-photo.jpg" alt="..."&gt;</p>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-secondary); text-align: center;">
+                    <strong>[PLACEHOLDER]</strong> - Add a description of your project photo
+                </p>
+            </div>
+
             <!-- Video Demo Section -->
             <div class="project-section">
                 <h2 class="section-title">🎥 Video Demonstration</h2>
@@ -342,76 +389,112 @@
                         <button class="copy-button" onclick="copyCode()">Copy Code</button>
                     </div>
                     <div class="code-block" id="code-content">
-<span class="code-comment">/*
- * [PLACEHOLDER - Add your project title and description]
- * Arduino DC Motor Controller with IR Remote
- * 
- * Author: Brady Librino
- * Date: [PLACEHOLDER - Add creation date]
- * Description: [PLACEHOLDER - Add detailed description]
- */</span>
+<span class="code-comment">// Force IRremote to use Timer1 (avoids LCD timing conflict)</span>
+<span class="code-keyword">#define</span> IR_USE_TIMER1
+<span class="code-keyword">#include</span> <span class="code-string">&lt;IRremote.hpp&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;LiquidCrystal.h&gt;</span>
 
-<span class="code-comment">// [PLACEHOLDER - Add your library includes]</span>
-<span class="code-keyword">#include</span> <span class="code-string">&lt;IRremote.h&gt;</span>
+<span class="code-comment">// LCD pin setup</span>
+<span class="code-keyword">LiquidCrystal</span> lcd(<span class="code-string">12, 13, 7, 8, 9, 10</span>);
 
-<span class="code-comment">// [PLACEHOLDER - Define your pin connections]</span>
-<span class="code-keyword">const int</span> IR_RECEIVE_PIN = <span class="code-string">11</span>;
-<span class="code-keyword">const int</span> MOTOR_PIN1 = <span class="code-string">9</span>;
-<span class="code-keyword">const int</span> MOTOR_PIN2 = <span class="code-string">10</span>;
+<span class="code-comment">// Motor pins</span>
+<span class="code-keyword">#define</span> RECV_PIN <span class="code-string">11</span>
+<span class="code-keyword">#define</span> SPEED_PIN <span class="code-string">5</span>
+<span class="code-keyword">#define</span> DIR1 <span class="code-string">4</span>
+<span class="code-keyword">#define</span> DIR2 <span class="code-string">3</span>
 
-<span class="code-comment">// [PLACEHOLDER - Add your global variables]</span>
-<span class="code-keyword">IRrecv</span> irrecv(IR_RECEIVE_PIN);
-<span class="code-keyword">decode_results</span> results;
+<span class="code-comment">// Motor state</span>
+<span class="code-keyword">int</span> mSpeed = <span class="code-string">0</span>;          <span class="code-comment">// Current motor speed (0–255)</span>
+<span class="code-keyword">bool</span> forward = <span class="code-string">true</span>;     <span class="code-comment">// Direction: true = forward</span>
+<span class="code-keyword">int</span> lastSpeed = <span class="code-string">-1</span>;
+<span class="code-keyword">bool</span> lastDirection = <span class="code-string">false</span>;
 
 <span class="code-keyword">void</span> <span class="code-string">setup</span>() {
-  <span class="code-comment">// [PLACEHOLDER - Add your setup code here]</span>
+  <span class="code-comment">// Initialize LCD</span>
+  lcd.<span class="code-string">begin</span>(<span class="code-string">16, 2</span>);
+  lcd.<span class="code-string">print</span>(<span class="code-string">"IR Motor Ready"</span>);
+
+  <span class="code-comment">// Serial for debug</span>
   Serial.<span class="code-string">begin</span>(<span class="code-string">9600</span>);
-  irrecv.<span class="code-string">enableIRIn</span>();
-  
-  <span class="code-comment">// Initialize motor pins</span>
-  pinMode(MOTOR_PIN1, OUTPUT);
-  pinMode(MOTOR_PIN2, OUTPUT);
-  
-  Serial.<span class="code-string">println</span>(<span class="code-string">"Arduino Motor Controller Ready!"</span>);
+  Serial.<span class="code-string">println</span>(<span class="code-string">"IR Motor Control Active"</span>);
+
+  <span class="code-comment">// IR setup</span>
+  IrReceiver.<span class="code-string">begin</span>(RECV_PIN, ENABLE_LED_FEEDBACK);
+
+  <span class="code-comment">// Motor pins</span>
+  <span class="code-string">pinMode</span>(SPEED_PIN, OUTPUT);
+  <span class="code-string">pinMode</span>(DIR1, OUTPUT);
+  <span class="code-string">pinMode</span>(DIR2, OUTPUT);
 }
 
 <span class="code-keyword">void</span> <span class="code-string">loop</span>() {
-  <span class="code-comment">// [PLACEHOLDER - Add your main loop code here]</span>
-  <span class="code-keyword">if</span> (irrecv.<span class="code-string">decode</span>(&results)) {
-    <span class="code-comment">// Process received IR signal</span>
-    processIRCommand(results.value);
-    irrecv.<span class="code-string">resume</span>();
+  <span class="code-comment">// Check IR input</span>
+  <span class="code-keyword">if</span> (IrReceiver.<span class="code-string">decode</span>()) {
+    <span class="code-keyword">unsigned long</span> code = IrReceiver.decodedIRData.decodedRawData;
+
+    <span class="code-keyword">if</span> (code != <span class="code-string">0</span>) {  <span class="code-comment">// Ignore spurious zeros</span>
+      Serial.<span class="code-string">print</span>(<span class="code-string">"Code received: "</span>);
+      Serial.<span class="code-string">println</span>(code, HEX);
+
+      <span class="code-keyword">switch</span> (code) {
+        <span class="code-keyword">case</span> <span class="code-string">0xBA45FF00</span>: <span class="code-comment">// Power - stop motor</span>
+          mSpeed = <span class="code-string">0</span>;
+          Serial.<span class="code-string">println</span>(<span class="code-string">"Motor stopped"</span>);
+          <span class="code-keyword">break</span>;
+
+        <span class="code-keyword">case</span> <span class="code-string">0xB946FF00</span>: <span class="code-comment">// Vol+ - increase speed</span>
+          mSpeed += <span class="code-string">5</span>;
+          <span class="code-keyword">if</span> (mSpeed > <span class="code-string">255</span>) mSpeed = <span class="code-string">255</span>;
+          <span class="code-keyword">if</span> (mSpeed < <span class="code-string">155</span> && mSpeed != <span class="code-string">0</span>) mSpeed = <span class="code-string">155</span>; <span class="code-comment">// prevent stall</span>
+          Serial.<span class="code-string">print</span>(<span class="code-string">"Speed increased to "</span>);
+          Serial.<span class="code-string">println</span>(mSpeed);
+          <span class="code-keyword">break</span>;
+
+        <span class="code-keyword">case</span> <span class="code-string">0xEA15FF00</span>: <span class="code-comment">// Vol- - decrease speed</span>
+          mSpeed -= <span class="code-string">5</span>;
+          <span class="code-keyword">if</span> (mSpeed < <span class="code-string">155</span> && mSpeed != <span class="code-string">0</span>) mSpeed = <span class="code-string">155</span>; <span class="code-comment">// prevent stall</span>
+          Serial.<span class="code-string">print</span>(<span class="code-string">"Speed decreased to "</span>);
+          Serial.<span class="code-string">println</span>(mSpeed);
+          <span class="code-keyword">break</span>;
+
+        <span class="code-keyword">case</span> <span class="code-string">0xBF40FF00</span>: <span class="code-comment">// Direction toggle</span>
+          forward = !forward;
+          Serial.<span class="code-string">print</span>(<span class="code-string">"Direction: "</span>);
+          Serial.<span class="code-string">println</span>(forward ? <span class="code-string">"Forward"</span> : <span class="code-string">"Reverse"</span>);
+          <span class="code-keyword">break</span>;
+
+        <span class="code-keyword">default</span>:
+          Serial.<span class="code-string">println</span>(<span class="code-string">"Unknown button"</span>);
+          <span class="code-keyword">break</span>;
+      }
+    }
+
+    IrReceiver.<span class="code-string">resume</span>(); <span class="code-comment">// Prepare for next code</span>
   }
-}
 
-<span class="code-comment">// [PLACEHOLDER - Add your custom functions here]</span>
-<span class="code-keyword">void</span> <span class="code-string">processIRCommand</span>(<span class="code-keyword">unsigned long</span> command) {
-  <span class="code-comment">// Add your IR command processing logic</span>
-  <span class="code-keyword">switch</span>(command) {
-    <span class="code-keyword">case</span> <span class="code-string">0xFF18E7</span>: <span class="code-comment">// Forward button</span>
-      motorForward();
-      <span class="code-keyword">break</span>;
-    <span class="code-keyword">case</span> <span class="code-string">0xFF4AB5</span>: <span class="code-comment">// Backward button</span>
-      motorBackward();
-      <span class="code-keyword">break</span>;
-    <span class="code-keyword">case</span> <span class="code-string">0xFF38C7</span>: <span class="code-comment">// Stop button</span>
-      motorStop();
-      <span class="code-keyword">break</span>;
-    <span class="code-keyword">default</span>:
-      Serial.<span class="code-string">println</span>(<span class="code-string">"Unknown command"</span>);
+  <span class="code-comment">// Apply motor direction</span>
+  <span class="code-string">digitalWrite</span>(DIR1, forward ? HIGH : LOW);
+  <span class="code-string">digitalWrite</span>(DIR2, forward ? LOW : HIGH);
+  <span class="code-string">analogWrite</span>(SPEED_PIN, mSpeed);
+
+  <span class="code-comment">// Update LCD only when speed/direction changes</span>
+  <span class="code-keyword">if</span> (mSpeed != lastSpeed || forward != lastDirection) {
+    <span class="code-string">noInterrupts</span>();  <span class="code-comment">// prevent LCD corruption</span>
+    lcd.<span class="code-string">setCursor</span>(<span class="code-string">0, 0</span>);
+    lcd.<span class="code-string">print</span>(<span class="code-string">"Speed:             "</span>);  <span class="code-comment">// pad with spaces</span>
+    lcd.<span class="code-string">setCursor</span>(<span class="code-string">7, 0</span>);
+    lcd.<span class="code-string">print</span>(mSpeed);
+    
+
+    lcd.<span class="code-string">setCursor</span>(<span class="code-string">0, 1</span>);
+    lcd.<span class="code-string">print</span>(<span class="code-string">"Dir:               "</span>); <span class="code-comment">// pad with spaces</span>
+    lcd.<span class="code-string">setCursor</span>(<span class="code-string">5, 1</span>);
+    lcd.<span class="code-string">print</span>(forward ? <span class="code-string">"Forward"</span> : <span class="code-string">"Reverse"</span>);
+    <span class="code-string">interrupts</span>();
+
+    lastSpeed = mSpeed;
+    lastDirection = forward;
   }
-}
-
-<span class="code-keyword">void</span> <span class="code-string">motorForward</span>() {
-  <span class="code-comment">// [PLACEHOLDER - Add forward motion code]</span>
-}
-
-<span class="code-keyword">void</span> <span class="code-string">motorBackward</span>() {
-  <span class="code-comment">// [PLACEHOLDER - Add backward motion code]</span>
-}
-
-<span class="code-keyword">void</span> <span class="code-string">motorStop</span>() {
-  <span class="code-comment">// [PLACEHOLDER - Add stop motion code]</span>
 }
                     </div>
                 </div>
