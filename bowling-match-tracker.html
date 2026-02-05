@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bowling Match Tracker - Brady Librino</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .project-detail-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .project-title {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .project-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-tags-header {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .project-tags-header span {
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-hover);
+        }
+
+        .project-section {
+            background: var(--bg-card);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent-primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .overview-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            background: var(--bg-secondary);
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--accent-primary);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .project-photo-container {
+            position: relative;
+            width: 100%;
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 2px dashed var(--border-color);
+        }
+
+        .photo-placeholder {
+            text-align: center;
+            color: var(--text-tertiary);
+            padding: 3rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .photo-placeholder h3 {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .project-detail-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .project-section {
+                padding: 1.5rem;
+            }
+
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-logo">Portfolio</div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
+
+    <main style="margin-top: 6rem;">
+        <div class="project-detail-container">
+            <a href="index.html#projects" class="back-link">← Back to Projects</a>
+            
+            <div class="project-header">
+                <h1 class="project-title">Bowling Match Tracker</h1>
+                <p class="project-subtitle"><strong>[PLACEHOLDER]</strong> - Add your project subtitle here</p>
+                <div class="project-tags-header">
+                    <span>[PLACEHOLDER]</span>
+                    <span>[PLACEHOLDER]</span>
+                    <span>[PLACEHOLDER]</span>
+                </div>
+            </div>
+
+            <!-- Project Overview Section -->
+            <div class="project-section">
+                <h2 class="section-title">📋 Project Overview</h2>
+                <div class="overview-content">
+                    <p><strong>Summary</strong></p>
+                    <p><strong>[PLACEHOLDER]</strong> - Add your project summary here</p>
+                    
+                    <h3 style="color: var(--accent-primary); margin-top: 2rem; margin-bottom: 1rem;">Key Features:</h3>
+                    <ul class="feature-list">
+                        <li><strong>[PLACEHOLDER]</strong> - Add key feature 1</li>
+                        <li><strong>[PLACEHOLDER]</strong> - Add key feature 2</li>
+                        <li><strong>[PLACEHOLDER]</strong> - Add key feature 3</li>
+                        <li><strong>[PLACEHOLDER]</strong> - Add key feature 4</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Project Photos Section -->
+            <div class="project-section">
+                <h2 class="section-title">📸 Project Photos</h2>
+                <div class="photo-grid">
+                    <div class="project-photo-container">
+                        <div class="photo-placeholder">
+                            <i>📷</i>
+                            <h3>[PHOTO 1]</h3>
+                            <p>Add project photo 1</p>
+                        </div>
+                    </div>
+                    <div class="project-photo-container">
+                        <div class="photo-placeholder">
+                            <i>📷</i>
+                            <h3>[PHOTO 2]</h3>
+                            <p>Add project photo 2</p>
+                        </div>
+                    </div>
+                    <div class="project-photo-container">
+                        <div class="photo-placeholder">
+                            <i>📷</i>
+                            <h3>[PHOTO 3]</h3>
+                            <p>Add project photo 3</p>
+                        </div>
+                    </div>
+                    <div class="project-photo-container">
+                        <div class="photo-placeholder">
+                            <i>📷</i>
+                            <h3>[PHOTO 4]</h3>
+                            <p>Add project photo 4</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: var(--text-secondary); text-align: center;">
+                    <strong>[PLACEHOLDER]</strong> - Add descriptions for your project photos
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
