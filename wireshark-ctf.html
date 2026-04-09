@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireshark CTF Analysis - Brady Librino</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .project-detail-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .project-title {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .project-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-tags-header {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .project-tags-header span {
+            background: var(--accent-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent-hover);
+        }
+
+        .project-section {
+            background: var(--bg-card);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent-primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .overview-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            background: var(--bg-secondary);
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--accent-primary);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .workflow-step {
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            border-top: 4px solid var(--accent-primary);
+        }
+
+        .workflow-step h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .workflow-step p {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+        }
+
+        .command-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            font-family: "Fira Code", "Courier New", monospace;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        .scenario-panel {
+            background: linear-gradient(135deg, #0f172a, #1d4ed8);
+            color: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .scenario-panel h3 {
+            margin-bottom: 0.75rem;
+            font-size: 1.4rem;
+        }
+
+        .scenario-panel p {
+            color: #dbeafe;
+        }
+
+        @media (max-width: 768px) {
+            .project-detail-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .project-section {
+                padding: 1.5rem;
+            }
+
+            .workflow-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-logo">Portfolio</div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
+
+    <main style="margin-top: 6rem;">
+        <div class="project-detail-container">
+            <a href="index.html#projects" class="back-link">← Back to Projects</a>
+
+            <div class="project-header">
+                <h1 class="project-title">Wireshark CTF Analysis</h1>
+                <p class="project-subtitle">Using packet captures to trace attacker activity, recover files, and extract flags during a CTF challenge.</p>
+                <div class="project-tags-header">
+                    <span>Wireshark</span>
+                    <span>Packet Analysis</span>
+                    <span>CTF</span>
+                    <span>Networking</span>
+                </div>
+            </div>
+
+            <div class="project-section">
+                <h2 class="section-title">📋 Project Overview</h2>
+                <div class="overview-content">
+                    <p><strong>Summary</strong></p>
+                    <p>This page outlines a practical workflow for solving a capture-the-flag challenge with Wireshark. The focus is on narrowing a large packet capture into useful traffic, identifying suspicious protocols, rebuilding conversations, and pulling artifacts that may contain credentials, malware samples, or the final flag.</p>
+
+                    <h3 style="color: var(--accent-primary); margin-top: 2rem; margin-bottom: 1rem;">Key Skills Used:</h3>
+                    <ul class="feature-list">
+                        <li><strong>Protocol filtering</strong> to isolate DNS, HTTP, TCP, FTP, and other likely sources of flags.</li>
+                        <li><strong>Stream following</strong> to reconstruct attacker sessions and read transferred data in order.</li>
+                        <li><strong>File recovery</strong> by exporting HTTP objects or rebuilding transferred content from packets.</li>
+                        <li><strong>IOC hunting</strong> to identify unusual hosts, encoded payloads, and suspicious destinations quickly.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="project-section">
+                <h2 class="section-title">🕵️ CTF Scenario</h2>
+                <div class="overview-content">
+                    <p>In this example scenario, a provided `.pcap` file contains traffic from a compromised workstation. The objective is to determine how the attacker communicated, what was exfiltrated, and where the hidden flag appears in the capture.</p>
+                </div>
+                <div class="scenario-panel">
+                    <h3>Typical Goal</h3>
+                    <p>Find the malicious conversation, recover the transferred content, and extract a flag embedded in either plaintext traffic, an exported object, or a decoded payload.</p>
+                </div>
+            </div>
+
+            <div class="project-section">
+                <h2 class="section-title">🔍 Analysis Workflow</h2>
+                <div class="workflow-grid">
+                    <div class="workflow-step">
+                        <h3>1. Baseline the Capture</h3>
+                        <p>Review endpoints, packet counts, and protocol hierarchy to identify what traffic types matter first.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <h3>2. Filter Suspicious Traffic</h3>
+                        <p>Use display filters to isolate unusual DNS lookups, failed logins, or external connections.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <h3>3. Rebuild Streams</h3>
+                        <p>Follow TCP or HTTP streams to see full requests, responses, commands, and recovered text.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <h3>4. Export Artifacts</h3>
+                        <p>Save transferred files and inspect them for flags, credentials, or hidden encoded data.</p>
+                    </div>
+                </div>
+
+                <div class="command-block">Useful display filters:
+http
+dns
+tcp contains "flag"
+ip.addr == 192.168.1.10
+ftp.request.command
+frame contains "CTF{"</div>
+            </div>
+
+            <div class="project-section">
+                <h2 class="section-title">🧰 Why Wireshark Helps in CTFs</h2>
+                <div class="overview-content">
+                    <p>Wireshark is useful in CTF environments because it turns raw network captures into searchable evidence. Instead of reading packets one by one, you can sort by protocol, inspect timing, follow conversations, and recover objects directly. That makes it effective for challenges involving phishing, malware callbacks, credential reuse, covert channels, or data exfiltration.</p>
+
+                    <h3 style="color: var(--accent-primary); margin-top: 2rem; margin-bottom: 1rem;">Common Places Flags Appear:</h3>
+                    <ul class="feature-list">
+                        <li><strong>HTTP requests and responses</strong> where the flag is transmitted in plaintext or embedded in a file.</li>
+                        <li><strong>DNS queries</strong> where the attacker hides data in subdomains.</li>
+                        <li><strong>Exported objects</strong> such as images, documents, or scripts transferred over the network.</li>
+                        <li><strong>Encoded payloads</strong> that require base64 or hex decoding after extraction.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
