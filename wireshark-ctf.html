@@ -153,6 +153,25 @@
             color: #dbeafe;
         }
 
+        .photo-link {
+            display: block;
+            text-decoration: none;
+        }
+
+        .photo-preview {
+            width: 100%;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            box-shadow: var(--shadow);
+        }
+
+        .photo-caption {
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 0.98rem;
+        }
+
         @media (max-width: 768px) {
             .project-detail-container {
                 margin: 1rem;
@@ -275,6 +294,17 @@ frame contains "CTF{"</div>
                         <li><strong>Encoded payloads</strong> that require base64 or hex decoding after extraction.</li>
                     </ul>
                 </div>
+            </div>
+
+            <div class="project-section">
+                <h2 class="section-title">📷 Example Capture</h2>
+                <div class="overview-content">
+                    <p>This screenshot links to the example Wireshark image used for the challenge walkthrough.</p>
+                </div>
+                <a class="photo-link" href="WireSharkExample.png" target="_blank" rel="noopener noreferrer">
+                    <img class="photo-preview" src="WireSharkExample.png" alt="Wireshark example capture screenshot">
+                </a>
+                <p class="photo-caption">Click the image to open <strong>WireSharkExample.png</strong>.</p>
             </div>
         </div>
     </main>
