@@ -343,15 +343,16 @@
             <div class="project-section">
                 <h2 class="section-title">📸 Project Photo</h2>
                 <div class="project-photo-container">
-                    <img id="project-photo" src="Arduino_Image.png" alt="Project Photo" style="width: 100%; height: auto; border-radius: 0.5rem; display: none;">
-                    <div id="photo-placeholder" class="photo-placeholder">
+                    <img id="project-photo" src="Arduino_Image.png" alt="Arduino DC motor controller circuit with LCD, IR receiver, and motor driver" style="width: 100%; height: auto; border-radius: 0.5rem;">
+                    <div id="photo-placeholder" class="photo-placeholder" style="display: none;">
                         <i>📷</i>
-                        <h3>[PHOTO PLACEHOLDER]</h3>
-                        <p>Replace the src attribute in the img tag with your project photo file</p>
-                        <p style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--text-tertiary);">Example: &lt;img src="arduino-photo.jpg" alt="..."&gt;</p>
+                        <h3>Project Photo</h3>
+                        <p>A hardware snapshot of the Arduino motor controller build.</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem; color: var(--text-tertiary);">The live image is shown above when the asset is available.</p>
                     </div>
                 </div>
                 <p style="margin-top: 1rem; color: var(--text-secondary); text-align: center;">
+                    This photo shows the physical prototype, including the Arduino Uno, motor driver, IR receiver, LCD display, and wiring used to test speed and direction changes from the remote.
                 </p>
             </div>
 
@@ -361,9 +362,9 @@
                 <div class="video-container">
                     <div class="video-placeholder">
                         <i>📹</i>
-                        <h3>[VIDEO PLACEHOLDER]</h3>
-                        <p>Upload your project demonstration video here</p>
-                        <p style="font-size: 0.9rem; margin-top: 1rem;">Recommended: MP4 format, 1080p resolution</p>
+                        <h3>Demonstration Video</h3>
+                        <p>A recorded demo can be added here to show the motor responding to remote inputs in real time.</p>
+                        <p style="font-size: 0.9rem; margin-top: 1rem;">Recommended format: MP4 at 1080p for a clear view of the LCD and motor behavior.</p>
                     </div>
                     <!-- 
                     Replace the placeholder above with your actual video:
@@ -374,7 +375,7 @@
                     -->
                 </div>
                 <p style="margin-top: 1rem; color: var(--text-secondary); text-align: center;">
-                    <strong>[PLACEHOLDER]</strong> - Add a description of what the video demonstrates
+                    The video section is intended to demonstrate remote button presses changing the motor speed, reversing direction, and updating the LCD display to reflect the current state.
                 </p>
             </div>
 
@@ -501,12 +502,12 @@
                 <div style="margin-top: 1.5rem;">
                     <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">Code Explanation:</h3>
                     <div class="overview-content">
-                        <p><strong>[PLACEHOLDER - Add explanation of your code structure]</strong></p>
+                        <p><strong>The sketch is organized around input handling, motor output, and display updates.</strong> It listens for decoded IR commands, translates them into speed or direction changes, applies those values to the motor driver, and refreshes the LCD only when the state actually changes.</p>
                         <ul style="margin-top: 1rem; color: var(--text-secondary);">
-                            <li><strong>[PLACEHOLDER]</strong> - Explain the setup function</li>
-                            <li><strong>[PLACEHOLDER]</strong> - Explain the main loop</li>
-                            <li><strong>[PLACEHOLDER]</strong> - Explain IR signal processing</li>
-                            <li><strong>[PLACEHOLDER]</strong> - Explain motor control functions</li>
+                            <li><strong>Setup</strong> initializes the LCD, serial monitor, IR receiver, and output pins so every hardware component is ready before the main loop begins.</li>
+                            <li><strong>Main loop</strong> continuously checks for remote input, updates the motor state, and writes the latest speed and direction to the display.</li>
+                            <li><strong>IR signal processing</strong> decodes raw button values from the remote and maps each recognized code to an action such as stop, increase speed, decrease speed, or reverse direction.</li>
+                            <li><strong>Motor control logic</strong> uses digital outputs for direction and PWM on the speed pin so the motor can reverse cleanly while still supporting variable speed control.</li>
                         </ul>
                     </div>
                 </div>
@@ -516,14 +517,14 @@
             <div class="project-section">
                 <h2 class="section-title">🔧 Implementation Details</h2>
                 <div class="overview-content">
-                    <p><strong>[PLACEHOLDER - Add implementation details]</strong></p>
-                    <p>Describe the challenges you faced, solutions you implemented, and lessons learned during the development process.</p>
+                    <p><strong>One of the main implementation challenges was keeping multiple hardware components working together without conflicts.</strong> The project combines IR input, PWM motor control, and LCD output in a single loop, so the code was structured to avoid unnecessary display writes and to keep the interface responsive while the motor is running.</p>
+                    <p>Another practical issue was making the motor behave reliably at lower speeds. The sketch enforces a minimum non-zero PWM value to prevent the fan motor from stalling, which makes the controls feel more consistent when adjusting speed from the remote.</p>
                     
                     <h3 style="color: var(--accent-primary); margin-top: 2rem; margin-bottom: 1rem;">Future Improvements:</h3>
                     <ul>
-                        <li><strong>[PLACEHOLDER]</strong> - Add potential improvement 1</li>
-                        <li><strong>[PLACEHOLDER]</strong> - Add potential improvement 2</li>
-                        <li><strong>[PLACEHOLDER]</strong> - Add potential improvement 3</li>
+                        <li><strong>Button labeling</strong> could be expanded so more remote keys trigger preset speed levels or additional operating modes.</li>
+                        <li><strong>Closed-loop feedback</strong> could be added with a sensor to measure actual RPM instead of estimating output from PWM alone.</li>
+                        <li><strong>Power management</strong> could be improved with a more robust external supply for longer demos and more stable motor performance.</li>
                     </ul>
                 </div>
             </div>
