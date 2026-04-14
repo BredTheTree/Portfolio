@@ -235,17 +235,10 @@
             box-shadow: 0 8px 18px rgba(37, 99, 235, 0.24);
         }
 
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.25rem;
-            margin-top: 1.25rem;
-        }
-
-        .project-photo-container {
+        .live-preview-container {
             position: relative;
             width: 100%;
-            min-height: 240px;
+            min-height: 620px;
             background:
                 linear-gradient(180deg, rgba(37, 99, 235, 0.07), transparent),
                 var(--bg-secondary);
@@ -253,49 +246,66 @@
             overflow: hidden;
             border: 1px solid rgba(148, 163, 184, 0.2);
             box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+            margin-top: 1.25rem;
         }
 
-        .project-photo-container::after {
+        .live-preview-container::after {
             content: "";
             position: absolute;
-            inset: 14px;
-            border: 1px dashed rgba(37, 99, 235, 0.22);
-            border-radius: 0.8rem;
+            inset: 0;
+            border-radius: 1rem;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
             pointer-events: none;
         }
 
-        .photo-placeholder {
-            position: relative;
-            z-index: 1;
-            height: 100%;
-            text-align: center;
-            color: var(--text-tertiary);
-            padding: 3rem 1.5rem;
+        .preview-toolbar {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: rgba(15, 23, 42, 0.04);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        [data-theme="dark"] .preview-toolbar {
+            background: rgba(15, 23, 42, 0.35);
+        }
+
+        .preview-url {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            word-break: break-all;
+        }
+
+        .preview-link {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            padding: 0.7rem 1rem;
+            border-radius: 999px;
+            background: var(--accent-primary);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
         }
 
-        .photo-placeholder i {
-            width: 4rem;
-            height: 4rem;
-            border-radius: 1rem;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            display: grid;
-            place-items: center;
-            background: rgba(37, 99, 235, 0.12);
-            color: var(--accent-primary);
+        .preview-link:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
         }
 
-        .photo-placeholder h3 {
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+        .live-preview-frame {
+            display: block;
+            width: 100%;
+            height: 560px;
+            border: 0;
+            background: white;
         }
 
-        .photo-caption {
+        .preview-caption {
             margin-top: 1.5rem;
             padding: 1rem 1.25rem;
             border-radius: 1rem;
@@ -328,8 +338,17 @@
                 grid-template-columns: 1fr;
             }
 
-            .photo-grid {
-                grid-template-columns: 1fr;
+            .live-preview-container {
+                min-height: 520px;
+            }
+
+            .preview-toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .live-preview-frame {
+                height: 460px;
             }
         }
     </style>
@@ -398,41 +417,24 @@
                 </div>
             </div>
 
-            <!-- Project Photos Section -->
+            <!-- Live Preview Section -->
             <div class="project-section">
-                <h2 class="section-title">📸 Project Photos</h2>
-                <div class="photo-grid">
-                    <div class="project-photo-container">
-                        <div class="photo-placeholder">
-                            <i>📷</i>
-                            <h3>[PHOTO 1]</h3>
-                            <p>Add project photo 1</p>
-                        </div>
+                <h2 class="section-title">Live Website Preview</h2>
+                <div class="live-preview-container">
+                    <div class="preview-toolbar">
+                        <span class="preview-url">nathan-jeong.github.io/KingPin/index</span>
+                        <a class="preview-link" href="https://nathan-jeong.github.io/KingPin/index" target="_blank" rel="noopener noreferrer">Open Full Site</a>
                     </div>
-                    <div class="project-photo-container">
-                        <div class="photo-placeholder">
-                            <i>📷</i>
-                            <h3>[PHOTO 2]</h3>
-                            <p>Add project photo 2</p>
-                        </div>
-                    </div>
-                    <div class="project-photo-container">
-                        <div class="photo-placeholder">
-                            <i>📷</i>
-                            <h3>[PHOTO 3]</h3>
-                            <p>Add project photo 3</p>
-                        </div>
-                    </div>
-                    <div class="project-photo-container">
-                        <div class="photo-placeholder">
-                            <i>📷</i>
-                            <h3>[PHOTO 4]</h3>
-                            <p>Add project photo 4</p>
-                        </div>
-                    </div>
+                    <iframe
+                        class="live-preview-frame"
+                        src="https://nathan-jeong.github.io/KingPin/index"
+                        title="Bowling Match Tracker live website preview"
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
-                <p class="photo-caption">
-                    <strong>[PLACEHOLDER]</strong> - Add descriptions for your project photos
+                <p class="preview-caption">
+                    This section now embeds the live Bowling Match Tracker site. If the browser blocks the embed, use the direct link above to open it in a new tab.
                 </p>
             </div>
         </div>
